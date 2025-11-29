@@ -2,14 +2,11 @@
 name = "csv-analyzer"
 version = "0.1.0"
 description = "Analisador de arquivos CSV"
-authors = [
-    {name = "Seu Nome", email = "seu@email.com"},
-]
 
 dependencies = [
-    "pandas>=2.0.0",
-    "matplotlib>=3.7.0", 
-    "fpdf>=1.7.0",
+    "pandas",
+    "matplotlib",
+    "fpdf"
 ]
 
 [build-system]
