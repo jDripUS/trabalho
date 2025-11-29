@@ -1,18 +1,19 @@
-
 FROM python:3.11-slim
 
 WORKDIR /app
 
+# Instala o PDM
 RUN pip install pdm
 
-COPY pyproject.toml .pdm-python ./
+# Copia arquivos de configuração
+COPY pyproject.toml ./
 
+# Instala dependências
 RUN pdm install --prod --no-lock
 
+# Copia código fonte
 COPY src/ ./src/
 COPY data/ ./data/
 
-ENV PYTHONPATH=/app/src
-ENV PYTHONUNBUFFERED=1
-
-CMD ["pdm", "run", "python", "-m", "csv_analyzer.analyzer", "--help"]
+# Comando padrão
+CMD ["pdm", "run", "python", "-m", "csv_analyzer"]
