@@ -9,7 +9,6 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-and-push:
@@ -32,11 +31,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Clean repository name
+        id: clean-name
+        run: |
+          CLEAN_NAME=$(echo "${{ github.repository }}" | sed 's/-$//')
+          echo "CLEAN_NAME=$CLEAN_NAME" >> $GITHUB_OUTPUT
+          echo "Cleaned repository name: $CLEAN_NAME"
+
       - name: Extract metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ steps.clean-name.outputs.CLEAN_NAME }}
           tags: |
             type=ref,event=branch
             type=ref,event=pr
